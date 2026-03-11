@@ -78,7 +78,6 @@ RUN --mount=type=cache,target=/data/.bun/install/cache \
 # Ensure global npm bin is in PATH
 ENV PATH="/usr/local/bin:/usr/local/lib/node_modules/.bin:${PATH}"
 
-
 # OpenClaw (bun install)
 RUN --mount=type=cache,target=/data/.bun/install/cache \
     bash -c 'if [ "$OPENCLAW_BETA" = "true" ]; then bun install -g openclaw@beta; else bun install -g openclaw; fi'
@@ -108,5 +107,9 @@ RUN ln -sf /data/.claude/bin/claude /usr/local/bin/claude || true && \
     chmod +x /app/scripts/*.sh
 
 ENV PATH="/root/.local/bin:/usr/local/go/bin:/usr/local/bin:/usr/bin:/bin:/data/.bun/bin:/data/.bun/install/global/bin:/data/.claude/bin:/data/.kimi/bin"
+
+# Force fresh install of OpenClaw to bypass cache
+RUN npm install -g openclaw
+
 EXPOSE 18789
 CMD ["bash", "/app/scripts/bootstrap.sh"]
