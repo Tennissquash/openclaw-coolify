@@ -94,12 +94,12 @@ services:
       - docker-proxy
 
     command: ["bash", "/app/scripts/bootstrap.sh"]
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:18789/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 120s
+   healthcheck:
+      test: ["CMD", "curl", "http://localhost:18789/"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 600s
 
   docker-proxy:
     image: tecnativa/docker-socket-proxy:latest
